@@ -1,0 +1,32 @@
+.category-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+}
+
+.category-list li {
+    margin-bottom: 0.5rem;
+}
+
+.category-link {
+    color: #4b6cb7;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.category-link:hover {
+    color: #3a5199;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.category-item {
+    font-style: normal;
+    font-weight: 500;
+    color: #334e8c;
+}
+
+.category-separator {
+    color: #999;
+}

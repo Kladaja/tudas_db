@@ -19,7 +19,7 @@ services:
     depends_on:
       - oracle
     environment:
-      DATABASE_URL: "oracle://system:oracle@oracle-db:1521/XE"
+      DATABASE_URL: "oracle://system:oracle@oracle-db:1521/XEPDB1"
     volumes:
       - ./backend:/app
 
@@ -28,6 +28,8 @@ services:
     container_name: react-frontend
     ports:
       - "3000:3000"
+    stdin_open: true
+    tty: true
     depends_on:
       - backend
     volumes:

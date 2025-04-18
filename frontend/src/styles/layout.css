@@ -1,0 +1,55 @@
+.page-container {
+    max-width: 900px;
+    margin: 2rem auto 4rem;
+    padding: 0 1rem;
+}
+
+.page-container.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-container.with-sidebars {
+    display: grid;
+    grid-template-columns: 220px 1fr 240px;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 3rem auto 5rem;
+    padding: 0 1.5rem;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.sidebar {
+    background: linear-gradient(145deg, #f0f4ff, #d9e2ff);
+    padding: 2rem 1.75rem;
+    font-size: 0.95rem;
+    color: #2c3e70;
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    transition: box-shadow 0.3s ease;
+}
+
+.sidebar:hover {
+    box-shadow:
+        inset 3px 3px 8px rgba(255, 255, 255, 0.9),
+        6px 6px 20px rgba(75, 108, 183, 0.25);
+}
+
+.main-content {
+    background: white;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 12px 30px rgba(75, 108, 183, 0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content .search-input {
+    max-width: 400px;
+    margin: 0 auto 2rem;
+    display: block;
+}

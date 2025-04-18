@@ -1,11 +1,14 @@
 # Node.js alap image
 FROM node:18
 
+# OpenSSL workaround
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 # Munkakönyvtár beállítása
 WORKDIR /app
 
 # Függőségek telepítése
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
 # Kód bemásolása

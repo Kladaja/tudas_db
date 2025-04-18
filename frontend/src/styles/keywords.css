@@ -1,0 +1,26 @@
+.keyword-tags {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 600;
+    color: #334e8c;
+}
+
+.keyword-tag {
+    background-color: #a3bffa;
+    color: #1a237e;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    user-select: none;
+    box-shadow: 0 2px 6px rgba(163, 191, 250, 0.6);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: default;
+}
+
+.keyword-tag:hover {
+    background-color: #7f9cff;
+    color: #142a6f;
+}

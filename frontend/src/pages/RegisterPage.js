@@ -14,10 +14,27 @@ function RegisterPage() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Regisztrációs adatok:", formData);
-        // TODO: Backend hívás ide
+        console.log("Registration data: ", formData);
+        try {
+            const response = await fetch("http://localhost:3001/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert("Successful registration!");
+            } else {
+                alert(`Hiba: ${data.error}`);
+            }
+        } catch (err) {
+            console.error("Connection error:", err);
+        }
     };
 
     return (
@@ -33,7 +50,6 @@ function RegisterPage() {
                     <select name="role" onChange={handleChange} value={formData.role}>
                         <option value="user">User</option>
                         <option value="lector">Lector</option>
-                        <option value="admin">Admin</option>
                     </select>
                 </label>
 

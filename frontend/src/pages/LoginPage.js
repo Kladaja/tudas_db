@@ -22,7 +22,7 @@ function LoginPage() {
             login(response.data);
             navigate("/profile");
         } catch (err) {
-            setError("Hibás email vagy jelszó.");
+            setError("Wrong email or password!");
         }
     };
 

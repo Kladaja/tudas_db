@@ -1,9 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import FloatingButton from './FloatingButton';
 
 function Navbar() {
     const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        window.location.href = '/';
+    };
 
     return (
         <nav className="navbar">
@@ -14,16 +20,16 @@ function Navbar() {
                 {user ? (
                     <>
                         <Link to="/profile">Profile</Link>
-                        <Link>Logout</Link>
+                        <Link to="#" onClick={handleLogout}>Logout</Link>
                     </>
                 ) : (
                     <>
                         <Link to="/login">Login</Link>
                         <Link to="/register">Register</Link>
                     </>
-
                 )}
             </div>
+            <FloatingButton />
         </nav>
     );
 }

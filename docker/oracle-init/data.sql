@@ -1,109 +1,20 @@
--- User alaptípus
-CREATE OR REPLACE TYPE T_User AS OBJECT (
-    userID NUMBER,
-    name VARCHAR2(100),
-    email VARCHAR2(100),
-    password VARCHAR2(100),
-    registration_date DATE,
-    role VARCHAR2(50)
-) NOT FINAL;
-/
-
--- Lektor specializált típus (öröklődik UserType-ból)
-CREATE OR REPLACE TYPE T_Lector UNDER T_User (
-    field VARCHAR2(100),
-    scientific_rank VARCHAR2(100)
-);
-/
-
--- Kulcsszó és kategória típus egyedi azonosítóval
-CREATE OR REPLACE TYPE T_Keyword AS OBJECT (
-    keywordID VARCHAR2(50)
-);
-/
-
-CREATE OR REPLACE TYPE T_Category AS OBJECT (
-    categoryID VARCHAR2(50)
-);
-/
-
--- Kulcsszavak és kategóriák listája
-CREATE OR REPLACE TYPE KeywordList AS TABLE OF T_Keyword;
-/
-CREATE OR REPLACE TYPE CategoryList AS TABLE OF T_Category;
-/
-
--- Cikk típusa beágyazott listákkal és felhasználóra hivatkozással
-CREATE OR REPLACE TYPE T_Article AS OBJECT (
-    articleID NUMBER,
-    title VARCHAR2(255),
-    curriculum CLOB,
-    creation_date DATE,
-    edit_date DATE,
-    review_date DATE,
-    keywords KeywordList,
-    categories CategoryList,
-    author REF T_User
-);
-/
-
--- Hibajelentés típus
-CREATE OR REPLACE TYPE T_Bug AS OBJECT (
-    bugID NUMBER,
-    description CLOB,
-    state VARCHAR2(50),
-    article REF T_Article,
-    reporter REF T_User
-);
-/
-
--- Táblák létrehozása
-
--- User tábla létrehozása objektum-alapúként (UserType)
-CREATE TABLE Users OF T_User;
-
--- Lektorokat külön tároljuk, de öröklik a UserType adatait
-CREATE TABLE Lectors OF T_Lector;
-
--- Egyedi kulcsszavak és kategóriák
-CREATE TABLE Keywords OF T_Keyword;
-
-CREATE TABLE Categories OF T_Category;
-
--- Cikkek beágyazott kulcsszó és kategória listával
-CREATE TABLE Articles OF T_Article
-    NESTED TABLE keywords STORE AS KeywordsTable,
-    NESTED TABLE categories STORE AS CategoriesTable;
-
--- Hibák objektumtáblája
-CREATE TABLE Bugs OF T_Bug;
-
--- Egyedi kulcsok hozzáadása
-ALTER TABLE Users ADD CONSTRAINT users_pk PRIMARY KEY (userID);
-ALTER TABLE Lectors ADD CONSTRAINT lectors_pk PRIMARY KEY (userID);
-ALTER TABLE Keywords ADD CONSTRAINT keywords_pk PRIMARY KEY (keywordID);
-ALTER TABLE Categories ADD CONSTRAINT categories_pk PRIMARY KEY (categoryID);
-ALTER TABLE Articles ADD CONSTRAINT articles_pk PRIMARY KEY (articleID);
-ALTER TABLE Bugs ADD CONSTRAINT bugs_pk PRIMARY KEY (bugID);
-
 -- USER adatok beszúrása
 INSERT INTO Users VALUES (
-    T_User(1, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'Student')
+    T_User(user_seq_custom.NEXTVAL, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'student')
 );
 
 INSERT INTO Users VALUES (
-    T_User(2, 'Jane Smith', 'jane.smith@example.com', 'securehash456', SYSDATE, 'Student')
+    T_User(user_seq_custom.NEXTVAL, 'Jane Smith', 'jane.smith@example.com', 'securehash456', SYSDATE, 'student')
 );
 
 -- LECTOR adatok beszúrása
 INSERT INTO Lectors VALUES (
-    T_Lector(3, 'Dr. Emily Watson', 'emily.watson@example.com', 'profhash789', SYSDATE, 'lector', 'Artificial Intelligence', 'Associate Professor')
+    T_Lector(user_seq_custom.NEXTVAL, 'Dr. Emily Watson', 'emily.watson@example.com', 'profhash789', SYSDATE, 'lector', 'Artificial Intelligence', 'Associate Professor')
 );
 
 INSERT INTO Lectors VALUES (
-    T_Lector(4, 'Dr. Alan Turing', 'alan.turing@example.com', 'legendaryhash001', SYSDATE, 'lector', 'Theoretical Computer Science', 'Professor')
+    T_Lector(user_seq_custom.NEXTVAL, 'Dr. Alan Turing', 'alan.turing@example.com', 'legendaryhash001', SYSDATE, 'lector', 'Theoretical Computer Science', 'Professor')
 );
-
 
 -- KEYWORDS beszúrása
 INSERT INTO Keywords VALUES (T_Keyword('Artificial Intelligence'));
@@ -121,7 +32,7 @@ INSERT INTO Categories VALUES (T_Category('Research'));
 -- CIKK beszúrása (beágyazott kulcsszó- és kategória-listával)
 INSERT INTO Articles VALUES (
     T_Article(
-        101, 
+        article_seq_custom.NEXTVAL, 
         'Foundations of Deep Learning',
         'Deep learning has revolutionized the field of artificial intelligence by enabling machines to learn from vast amounts of data with minimal human intervention. At its core, deep learning utilizes artificial neural networks with multiple hidden layers to extract increasingly abstract representations from input data. This article begins by discussing the fundamental building blocks of deep learning, including perceptrons, activation functions such as ReLU and sigmoid, and the mathematical foundations of gradient descent.
         The next section delves into the backpropagation algorithm, highlighting its role in updating network weights through error minimization. We explore techniques for addressing vanishing and exploding gradients, such as batch normalization and residual connections. Furthermore, the paper examines popular network architectures, including convolutional neural networks (CNNs) for image recognition and recurrent neural networks (RNNs) for sequential data like language and time series.
@@ -138,7 +49,7 @@ INSERT INTO Articles VALUES (
 
 INSERT INTO Articles VALUES (
     T_Article(
-        102, 
+        article_seq_custom.NEXTVAL, 
         'Big Data Analytics in Education',
         'Big data analytics is transforming education by enabling institutions to make informed decisions based on vast amounts of digital data. This article begins by defining big data in the educational context: high-volume, high-velocity, and high-variety data generated from learning management systems, student assessments, social interactions, and sensor technologies.
         We explore how predictive analytics can identify at-risk students by analyzing patterns in attendance, participation, and performance. Case studies demonstrate how machine learning models have been used to forecast dropout probabilities, recommend tailored learning resources, and support adaptive testing environments.
@@ -156,7 +67,7 @@ INSERT INTO Articles VALUES (
 
 INSERT INTO Articles VALUES (
     T_Article(
-        103, 
+        article_seq_custom.NEXTVAL, 
         'The Legacy of Alan Turing',
         'Alan Turing was a visionary whose work laid the groundwork for modern computing, artificial intelligence, and theoretical computer science. Born in 1912, Turing developed the concept of a universal machine—a theoretical construct now known as the Turing machine—which formalized the notion of algorithmic computation.
         During World War II, Turing played a pivotal role at Bletchley Park in decrypting the German Enigma code, significantly shortening the war and saving countless lives. His engineering of the electromechanical "Bombe" device demonstrated an early application of automated problem-solving and logic.
@@ -175,7 +86,7 @@ INSERT INTO Articles VALUES (
 -- HIBA jelentés beszúrása
 INSERT INTO Bugs VALUES (
     T_Bug(
-        201,
+        bug_seq_custom.NEXTVAL,
         'Some references in the article are outdated and need revision.',
         'Open',
         (SELECT REF(a) FROM Articles a WHERE a.articleID = 101),
@@ -185,7 +96,7 @@ INSERT INTO Bugs VALUES (
 
 INSERT INTO Bugs VALUES (
     T_Bug(
-        202,
+        bug_seq_custom.NEXTVAL,
         'Images are not loading correctly in the PDF version of the article.',
         'Pending',
         (SELECT REF(a) FROM Articles a WHERE a.articleID = 102),
@@ -195,7 +106,7 @@ INSERT INTO Bugs VALUES (
 
 INSERT INTO Bugs VALUES (
     T_Bug(
-        203,
+        bug_seq_custom.NEXTVAL,
         'Grammar issues in the introductory section.',
         'Resolved',
         (SELECT REF(a) FROM Articles a WHERE a.articleID = 103),

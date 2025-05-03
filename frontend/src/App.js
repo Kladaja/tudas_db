@@ -8,8 +8,8 @@ import HomePage from "./pages/HomePage";
 import FilteredArticlesPage from './pages/FilteredArticlesPage';
 import ArticlePage from "./pages/ArticlePage";
 import ProfilePage from "./pages/ProfilePage";
+import CreateArticlePage from "./pages/CreateArticlePage";
 import "./styles/App.css";
-
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
           <Route path="/keyword/:keyword" element={<FilteredArticlesPage filterType="keyword" />} />
           <Route path="/article/:id" element={<ArticlePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/create-article" element={<CreateArticlePage />} />
         </Routes>
       </Router>
     </AuthProvider>

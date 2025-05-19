@@ -25,6 +25,7 @@ function App() {
           <Route path="/article/:id" element={<ArticlePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/create-article" element={<CreateArticlePage />} />
+          <Route path="/edit-article/:id" element={<CreateArticlePage />} />
         </Routes>
       </Router>
     </AuthProvider>

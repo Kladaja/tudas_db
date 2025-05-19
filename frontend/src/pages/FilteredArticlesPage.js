@@ -45,30 +45,50 @@ function FilteredArticlesPage({ filterType }) {
                 {articles.map((article) => (
                     <article key={article.ARTICLEID} className="article-card">
                         <h2>{article.TITLE}</h2>
-                        <p><strong>Author:</strong> {article.AUTHOR}</p>
-                        <p><strong>Date:</strong> {new Date(article.CREATION_DATE).toLocaleDateString()}</p>
-                        <p><strong>Category:</strong> {article.CATEGORIES}</p>
+                        <p className="article-meta">
+                            <p><strong>Author:</strong> {article.AUTHOR || "Unknown"}</p>
+                            <p><strong>Date:</strong> {new Date(article.CREATION_DATE).toLocaleDateString()}</p>
+                            <span>
+                                <strong>Categories:</strong>{" "}
+                                {article.CATEGORIES && article.CATEGORIES.length > 0 ? (
+                                    article.CATEGORIES.map((category, index) => (
+                                        <span key={index} className="category-item">
+                                            {category}
+                                            {index < article.CATEGORIES.length - 1 && <span className="category-separator">, </span>}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span>None</span>
+                                )}
+                            </span>
+                        </p>
 
-                        {article.KEYWORDS && article.KEYWORDS.length > 0 && (
-                            <div className="keyword-tags">
-                                {article.KEYWORDS.map((k, index) => (
-                                    <span key={index} className="keyword-tag">{k}</span>
-                                ))}
-                            </div>
-                        )}
 
-                        <p className="article-content">
-                            {article.CURRICULUM.length > 300
-                                ? `${article.CURRICULUM.substring(0, 300)}...`
-                                : article.CURRICULUM}
+                        {
+                            article.KEYWORDS && article.KEYWORDS.length > 0 && (
+                                <div className="keyword-tags">
+                                    {article.KEYWORDS.map((k, index) => (
+                                        <span key={index} className="keyword-tag">{k}</span>
+                                    ))}
+                                </div>
+                            )
+                        }
+
+                        < p className="article-content" >
+                            {
+                                article.CURRICULUM.length > 300
+                                    ? `${article.CURRICULUM.substring(0, 300)}...`
+                                    : article.CURRICULUM
+                            }
                         </p>
                         <Link to={`/article/${article.ARTICLEID}`} className="read-more-link">
                             Read more
                         </Link>
                     </article>
-                ))}
-            </section>
-        </div>
+                ))
+                }
+            </section >
+        </div >
     );
 }
 

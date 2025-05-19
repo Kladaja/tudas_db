@@ -20,7 +20,15 @@
     cursor: default;
 }
 
+.keyword-tag a {
+    text-decoration: none;
+}
+
 .keyword-tag:hover {
     background-color: #7f9cff;
     color: #142a6f;
+}
+
+.keyword-tag.selected {
+    background-color: #a3d2ca;
 }

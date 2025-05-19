@@ -37,13 +37,20 @@ function ArticlePage() {
                     ))}
                 </div>
 
-                <ul className="category-list">
-                    {article.CATEGORIES && article.CATEGORIES.map((cat, index) => (
-                        <li key={index} className="category-item">
-                            <span className="category-link">{cat}</span>
-                        </li>
-                    ))}
-                </ul>
+                <span>
+                    <strong>Categories:</strong>{" "}
+                    {article.CATEGORIES && article.CATEGORIES.length > 0 ? (
+                        article.CATEGORIES.map((category, index) => (
+                            <span key={index} className="category-item">
+                                {category}
+                                {index < article.CATEGORIES.length - 1 && <span className="category-separator">, </span>}
+                            </span>
+                        ))
+                    ) : (
+                        <span>None</span>
+                    )}
+                </span>
+
 
                 <div className="article-content">
                     {article.CURRICULUM.split('\n').map((paragraph, idx) => (

@@ -30,3 +30,20 @@
 .category-separator {
     color: #999;
 }
+
+.category-tag {
+    display: inline-block;
+    list-style: none;
+    margin: 4px;
+}
+
+.category-tag .category-tag-link {
+    background-color: #eee;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.category-tag.selected .category-tag-link {
+    background-color: #f4a261;
+}

@@ -61,7 +61,7 @@ INSERT INTO Articles VALUES (
         NULL,
         KeywordList(T_Keyword('Big Data'), T_Keyword('Education')),
         CategoryList(T_Category('Education'), T_Category('Research')),
-        (SELECT REF(u) FROM Users u WHERE u.userID = 2)
+        (SELECT REF(u) FROM Users u WHERE u.userID = 101)
     )
 );
 
@@ -76,10 +76,10 @@ INSERT INTO Articles VALUES (
         The article concludes by highlighting contemporary efforts inspired by Turing’s work, from quantum computing to AI ethics. His legacy endures not only in the machines we build but in the philosophical inquiries we continue to pursue about intelligence, consciousness, and what it means to compute.',
         SYSDATE,
         SYSDATE,
-        NULL,
+        SYSDATE,
         KeywordList(T_Keyword('Artificial Intelligence'), T_Keyword('Theoretical Computer Science')),
         CategoryList(T_Category('Computer Science'), T_Category('Research')),
-        (SELECT REF(l) FROM Lectors l WHERE l.userID = 4)
+        (SELECT REF(l) FROM Lectors l WHERE l.userID = 103)
     )
 );
 

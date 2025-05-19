@@ -29,7 +29,7 @@ function LoginPage() {
     return (
         <div className="page-container centered">
             <h2>Login</h2>
-            <form onSubmit={handleSubmit} className="form">
+            <form onSubmit={handleSubmit} className="form form-narrow">
                 <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
                 <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
                 <button type="submit">Submit</button>

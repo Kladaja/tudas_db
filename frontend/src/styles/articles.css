@@ -67,3 +67,20 @@
 .read-more-link:hover {
     color: #005fa3;
 }
+
+.edit-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: #2563eb;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 8px;
+}
+
+.edit-button:hover {
+    background-color: #1e40af;
+}

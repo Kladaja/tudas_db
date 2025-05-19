@@ -84,7 +84,7 @@ function HomePage() {
                                         {new Date(article.CREATION_DATE).toLocaleDateString()}
                                     </span>
                                     <span>
-                                        <strong>Category:</strong>{" "}
+                                        <strong>Categories:</strong>{" "}
                                         {article.CATEGORIES && article.CATEGORIES.length > 0 ? (
                                             article.CATEGORIES.map((category, index) => (
                                                 <span key={index} className="category-item">

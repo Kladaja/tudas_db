@@ -155,13 +155,7 @@ function HomePage() {
                                     )
                                 }
 
-                                < p className="article-content" >
-                                    {
-                                        article.CURRICULUM.length > 300
-                                            ? `${article.CURRICULUM.substring(0, 300)}...`
-                                            : article.CURRICULUM
-                                    }
-                                </p>
+                                < p className="article-content" >{article.CURRICULUM}</p>
                                 <Link to={`/article/${article.ARTICLEID}`} className="read-more-link">
                                     Read more
                                 </Link>

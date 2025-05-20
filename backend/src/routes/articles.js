@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
             `SELECT 
                 a.articleID,
                 a.title,
-                DBMS_LOB.SUBSTR(a.curriculum, 4000, 1) AS curriculum,
+                DBMS_LOB.SUBSTR(a.curriculum, 300, 1) AS curriculum,
                 a.creation_date,
                 a.edit_date,
                 a.review_date,

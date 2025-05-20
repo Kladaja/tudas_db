@@ -59,10 +59,9 @@ function ArticlePage() {
             const newStatus = article.REVIEW_DATE
                 ? null
                 : new Date().toISOString().split('.')[0] + "Z";
-            const res = await axios.patch(`http://localhost:3001/articles/review/${id}`, {
+            await axios.patch(`http://localhost:3001/articles/review/${id}`, {
                 reviewDate: newStatus
             });
-
             setArticle((prev) => ({
                 ...prev,
                 REVIEW_DATE: newStatus

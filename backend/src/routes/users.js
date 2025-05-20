@@ -14,7 +14,25 @@ router.get('/', async (req, res) => {
         await connection.close();
         res.json(result.rows);
     } catch (err) {
-        console.error('DB error (users):', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const connection = await getConnection();
+        const result = await connection.execute(
+            `SELECT userID, name, email, registration_date, role FROM Users WHERE userID = :id`,
+            [id],
+            { outFormat: oracledb.OUT_FORMAT_OBJECT }
+        );
+        await connection.close();
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.json(result.rows[0]);
+    } catch (err) {
         res.status(500).json({ error: 'Database error' });
     }
 });
@@ -53,7 +71,6 @@ router.post('/login', async (req, res) => {
         });
         await connection.close();
     } catch (err) {
-        console.error('Login failed:', err);
         res.status(500).json({ error: "Server error" });
     }
 });

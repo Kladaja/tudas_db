@@ -5,6 +5,7 @@ import FloatingButton from './FloatingButton';
 import { ReactComponent as HomeIcon } from '../assets/home.svg';
 import { ReactComponent as LogoutIcon } from '../assets/logout.svg';
 import { ReactComponent as PersonIcon } from '../assets/person.svg';
+import { ReactComponent as PersonMultipleIcon } from '../assets/person-multiple.svg';
 
 function Navbar() {
     const { user, logout } = useAuth();
@@ -26,6 +27,10 @@ function Navbar() {
                             <HomeIcon className="navbar-icon" />
                             <span className="navbar-label">Home</span>
                         </Link>
+                        {user.role === 'admin' && <Link to="/profile-management" className="navbar-button">
+                            <PersonMultipleIcon className="navbar-icon" />
+                            <span className="navbar-label">Users</span>
+                        </Link>}
                         <Link to="/profile" className="navbar-button">
                             <PersonIcon className="navbar-icon" />
                             <span className="navbar-label">Profile</span>

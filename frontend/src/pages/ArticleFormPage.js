@@ -140,6 +140,7 @@ function ArticleFormPage() {
                 <form onSubmit={handleSubmit} className="form">
                     <div className="form-group">
                         <label htmlFor="title"><strong>Title:</strong></label>
+                        <p className="form-description-label">Enter a clear and concise title that summarizes your article’s main topic.</p>
                         <input
                             type="text"
                             id="title"
@@ -151,6 +152,7 @@ function ArticleFormPage() {
 
                     <div className="form-group">
                         <label htmlFor="content"><strong>Content:</strong></label>
+                        <p className="form-description-label">Write the full content of your article here. You can include detailed explanations, examples, and any important information your readers should know.</p>
                         <textarea
                             id="content"
                             rows={10}
@@ -162,6 +164,7 @@ function ArticleFormPage() {
 
                     <div className="form-group">
                         <label><strong>Keywords:</strong></label>
+                        <p className="form-description-label">Add keywords that describe the main themes of your article. Select existing keywords or add new ones to help others find your article easily.</p>
                         <div className="keyword-tags">
                             {existingKeywords.map((kw) => (
                                 <span
@@ -185,6 +188,7 @@ function ArticleFormPage() {
 
                     <div className="form-group">
                         <label><strong>Categories:</strong></label>
+                        <p className="form-description-label">Choose one or more categories that best fit your article’s subject. This helps organize articles and improves navigation.</p>
                         <ul className="category-list">
                             {existingCategories.map((cat) => (
                                 <li

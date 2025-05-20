@@ -4,11 +4,11 @@ INSERT INTO Users VALUES (
 );
 
 INSERT INTO Users VALUES (
-    T_User(user_seq_custom.NEXTVAL, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'student')
+    T_User(user_seq_custom.NEXTVAL, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'user')
 );
 
 INSERT INTO Users VALUES (
-    T_User(user_seq_custom.NEXTVAL, 'Jane Smith', 'jane.smith@example.com', 'securehash456', SYSDATE, 'student')
+    T_User(user_seq_custom.NEXTVAL, 'Jane Smith', 'jane.smith@example.com', 'securehash456', SYSDATE, 'user')
 );
 
 -- LECTOR adatok beszúrása
@@ -47,7 +47,7 @@ INSERT INTO Articles VALUES (
         NULL,
         KeywordList(T_Keyword('Deep Learning'), T_Keyword('Artificial Intelligence')),
         CategoryList(T_Category('Technology'), T_Category('Computer Science')),
-        (SELECT REF(u) FROM Users u WHERE u.userID = 1)
+        (SELECT REF(u) FROM Users u WHERE u.userID = 100)
     )
 );
 
@@ -92,8 +92,8 @@ INSERT INTO Bugs VALUES (
     T_Bug(
         bug_seq_custom.NEXTVAL,
         'Some references in the article are outdated and need revision.',
-        'Open',
-        (SELECT REF(a) FROM Articles a WHERE a.articleID = 101),
+        'open',
+        (SELECT REF(a) FROM Articles a WHERE a.articleID = 1000),
         (SELECT REF(u) FROM Users u WHERE u.userID = 2)
     )
 );
@@ -102,8 +102,8 @@ INSERT INTO Bugs VALUES (
     T_Bug(
         bug_seq_custom.NEXTVAL,
         'Images are not loading correctly in the PDF version of the article.',
-        'Pending',
-        (SELECT REF(a) FROM Articles a WHERE a.articleID = 102),
+        'pending',
+        (SELECT REF(a) FROM Articles a WHERE a.articleID = 1000),
         (SELECT REF(u) FROM Users u WHERE u.userID = 1)
     )
 );
@@ -112,8 +112,8 @@ INSERT INTO Bugs VALUES (
     T_Bug(
         bug_seq_custom.NEXTVAL,
         'Grammar issues in the introductory section.',
-        'Resolved',
-        (SELECT REF(a) FROM Articles a WHERE a.articleID = 103),
+        'resolved',
+        (SELECT REF(a) FROM Articles a WHERE a.articleID = 1000),
         (SELECT REF(u) FROM Users u WHERE u.userID = 2)
     )
 );

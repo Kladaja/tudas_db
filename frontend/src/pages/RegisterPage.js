@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ function RegisterPage() {
         field: "",
         scientific_rank: ""
     });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,7 +18,6 @@ function RegisterPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Registration data: ", formData);
         try {
             const response = await fetch("http://localhost:3001/users/register", {
                 method: "POST",
@@ -25,10 +26,9 @@ function RegisterPage() {
                 },
                 body: JSON.stringify(formData),
             });
-
             const data = await response.json();
             if (response.ok) {
-                alert("Successful registration!");
+                navigate("/login")
             } else {
                 alert(`Hiba: ${data.error}`);
             }

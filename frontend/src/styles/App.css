@@ -1,8 +1,12 @@
 @import "./base.css";
-@import "./forms.css";
 @import "./responsive.css";
 
 @import "./Common.css";
 @import "./Components.css";
 @import "./ArticleComponents.css";
 @import "./BugComponents.css";
+@import "./CategoryComponents.css";
+@import "./FormComponents.css";
+@import "./KeywordComponents.css";
+@import "./ProfileComponents.css";
+@import "./TableComponents.css";

@@ -119,9 +119,9 @@ function HomePage() {
                                     )}
                                 </div>
                                 <p className="article-meta">
-                                    <span>
-                                        <strong>Author:</strong> {article.AUTHOR || "Unknown"}
-                                    </span>
+                                    {article && article.AUTHOR_NAME && <span>
+                                        <strong>Author:</strong> {article.AUTHOR_NAME || "Unknown"}
+                                    </span>}
                                     <span>
                                         <strong>Date:</strong>{" "}
                                         {new Date(article.CREATION_DATE).toLocaleDateString()}

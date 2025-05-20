@@ -1,33 +1,86 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ReactComponent as EditIcon } from '../assets/edit.svg';
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
 import Unauthorized from "../components/Unauthorized";
+import NotFound from "../components/NotFound";
 
 function ProfilePage() {
     const { user } = useAuth();
+    const { id } = useParams();
+    const [profile, setProfile] = useState(null);
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isLector, setIsLector] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) {
-            axios
-                .get(`http://localhost:3001/articles/by-author/${user.userID}`)
-                .then((response) => {
-                    setArticles(response.data);
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    setLoading(false);
-                });
+        const fetchProfile = async () => {
+            if (!id) {
+                setProfile(user);
+                setLoading(false);
+                return;
+            }
+            try {
+                const userRes = await axios.get(`http://localhost:3001/users/${id}`);
+                const userData = userRes.data;
+                const normalizedUser = {
+                    userID: userData.USERID,
+                    name: userData.NAME,
+                    email: userData.EMAIL,
+                    role: userData.ROLE,
+                };
+
+                setProfile(normalizedUser);
+                setIsLector(false);
+            } catch {
+                try {
+                    const lectorRes = await axios.get(`http://localhost:3001/lectors/${id}`);
+                    const lectorData = lectorRes.data;
+                    const normalizedLector = {
+                        userID: lectorData.LECTORID,
+                        name: lectorData.NAME,
+                        email: lectorData.EMAIL,
+                        role: 'lector',
+                        FIELD: lectorData.FIELD,
+                        SCIENTIFIC_RANK: lectorData.SCIENTIFIC_RANK,
+                    };
+
+                    setProfile(normalizedLector);
+                    setIsLector(true);
+                } catch (err) {
+                    console.error("Profile not found.");
+                    setProfile(null);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProfile();
+    }, [id, user]);
+
+    useEffect(() => {
+        const fetchArticles = async (authorID) => {
+            try {
+                const response = await axios.get(`http://localhost:3001/articles/by-author/${authorID}`);
+                setArticles(response.data);
+            } catch (err) {
+                console.error("Failed to load articles");
+                setArticles([]);
+            }
+        };
+
+        if (profile && profile.userID) {
+            fetchArticles(profile.userID);
         }
-    }, [user]);
+    }, [profile]);
 
     if (!user) return <Unauthorized />;
+    if (loading) return <p>Loading profile...</p>;
+    if (!profile) return <NotFound />;
 
     const handleEditArticle = (id) => { navigate(`/article/edit/${id}`); };
 
@@ -46,13 +99,19 @@ function ProfilePage() {
     return (
         <div className="page-container">
             <h2>Profile</h2>
-            <div className="main-content">
-                <p><strong>Name:</strong> {user.name}</p>
-                <p><strong>Email:</strong> {user.email}</p>
-                <p><strong>Role:</strong> {user.role}</p>
-            </div>
+            {profile && <div className="main-content">
+                <p><strong>Name: </strong>{profile.name}</p>
+                <p><strong>Email: </strong>{profile.email}</p>
+                <p><strong>Role: </strong>{profile.role}</p>
+                {isLector ? (
+                    <>
+                        <p><strong>Field:</strong> {profile.FIELD}</p>
+                        <p><strong>Scientific Rank:</strong> {profile.SCIENTIFIC_RANK}</p>
+                    </>
+                ) : <></>}
+            </div>}
 
-            <h3>My Articles</h3>
+            <h3>Articles</h3>
 
             {loading ? (
                 <p>Loading...</p>

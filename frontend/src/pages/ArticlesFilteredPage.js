@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
-function FilteredArticlesPage({ filterType }) {
+function ArticlesFilteredPage({ filterType }) {
     const { category, keyword } = useParams();
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -92,4 +92,4 @@ function FilteredArticlesPage({ filterType }) {
     );
 }
 
-export default FilteredArticlesPage;
+export default ArticlesFilteredPage;

@@ -95,7 +95,7 @@ function ArticlePage() {
                 </div>
 
                 <div className="article-meta">
-                    <span><strong>Author:</strong> {article.AUTHOR}</span>
+                    {article && article.AUTHOR_NAME && <span><strong>Author:</strong> {article.AUTHOR_NAME}</span>}
                     <span><strong>Date:</strong> {new Date(article.CREATION_DATE).toLocaleDateString()}</span>
                 </div>
 

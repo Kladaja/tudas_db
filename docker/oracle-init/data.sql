@@ -43,7 +43,7 @@ INSERT INTO Articles VALUES (
         Real-world applications are surveyed, spanning from autonomous vehicles and medical diagnostics to natural language processing and recommendation systems. We address challenges such as overfitting, interpretability, and the need for large labeled datasets. To mitigate these, techniques like dropout, transfer learning, and unsupervised pretraining are analyzed in depth.
         Finally, we reflect on the societal and ethical implications of deep learning deployment, including bias in training data, adversarial attacks, and AI governance. As deep learning models become more complex and integrated into critical systems, ensuring fairness, transparency, and accountability becomes a paramount concern for researchers and practitioners alike.',
         SYSDATE,
-        SYSDATE,
+        NULL,
         NULL,
         KeywordList(T_Keyword('Deep Learning'), T_Keyword('Artificial Intelligence')),
         CategoryList(T_Category('Technology'), T_Category('Computer Science')),

@@ -42,13 +42,13 @@ router.post('/login', async (req, res) => {
     try {
         const connection = await getConnection();
         let result = await connection.execute(
-            `SELECT userID, name, email, password, role FROM Users WHERE email = :email`,
+            `SELECT userID, name, email, password, role, confirmed FROM Users WHERE email = :email`,
             [email],
             { outFormat: oracledb.OUT_FORMAT_OBJECT }
         );
         if (result.rows.length === 0) {
             result = await connection.execute(
-                `SELECT userID, name, email, password, role FROM Lectors WHERE email = :email`,
+                `SELECT userID, name, email, password, role, confirmed FROM Lectors WHERE email = :email`,
                 [email],
                 { outFormat: oracledb.OUT_FORMAT_OBJECT }
             );
@@ -67,7 +67,8 @@ router.post('/login', async (req, res) => {
             userID: user.USERID,
             name: user.NAME,
             email: user.EMAIL,
-            role: user.ROLE
+            role: user.ROLE,
+            confirmed: user.CONFIRMED
         });
         await connection.close();
     } catch (err) {

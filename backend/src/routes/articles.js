@@ -12,6 +12,8 @@ router.get('/', async (req, res) => {
                 a.title,
                 DBMS_LOB.SUBSTR(a.curriculum, 4000, 1) AS curriculum,
                 a.creation_date,
+                a.edit_date,
+                a.review_date,
                 DEREF(a.author).name AS author_name,
                 DEREF(a.author).userID AS author_id,
                 (SELECT CAST(COLLECT(k.keywordID) AS SYS.ODCIVARCHAR2LIST)
@@ -40,6 +42,8 @@ router.get('/:id', async (req, res) => {
                 a.title,
                 DBMS_LOB.SUBSTR(a.curriculum, 4000, 1) AS curriculum,
                 a.creation_date,
+                a.edit_date,
+                a.review_date,
                 DEREF(a.author).name AS author_name,
                 DEREF(a.author).userID AS author_id,
                 (SELECT CAST(COLLECT(k.keywordID) AS SYS.ODCIVARCHAR2LIST)
@@ -56,6 +60,45 @@ router.get('/:id', async (req, res) => {
         res.json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: 'Database error' });
+    }
+});
+
+router.get('/by-author/:authorID', async (req, res) => {
+    const { authorID } = req.params;
+    const connection = await getConnection();
+
+    try {
+        const result = await connection.execute(`
+            SELECT 
+                a.articleID,
+                a.title,
+                DBMS_LOB.SUBSTR(a.curriculum, 4000, 1) AS curriculum,
+                a.creation_date,
+                DEREF(a.author).name AS author,
+                (SELECT CAST(COLLECT(k.keywordID) AS SYS.ODCIVARCHAR2LIST)
+                 FROM TABLE(a.keywords) k) AS keywords,
+                (SELECT CAST(COLLECT(c.categoryID) AS SYS.ODCIVARCHAR2LIST)
+                 FROM TABLE(a.categories) c) AS categories
+            FROM Articles a
+            WHERE DEREF(a.author).userID = :authorID
+        `, [authorID], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+
+        const articles = result.rows.map(row => ({
+            ARTICLEID: row.ARTICLEID,
+            TITLE: row.TITLE,
+            CURRICULUM: row.CURRICULUM,
+            CREATION_DATE: row.CREATION_DATE,
+            AUTHOR: row.AUTHOR,
+            KEYWORDS: row.KEYWORDS || [],
+            CATEGORIES: row.CATEGORIES || []
+        }));
+
+        res.json(articles);
+    } catch (err) {
+        console.error("Error fetching author's articles:", err);
+        res.status(500).json({ error: "Failed to fetch articles" });
+    } finally {
+        await connection.close();
     }
 });
 
@@ -85,7 +128,7 @@ router.post('/add', async (req, res) => {
                     :title,
                     :curriculum,
                     SYSDATE,
-                    SYSDATE,
+                    NULL,
                     NULL,
                     KeywordList(${keywords.map((_, i) => `T_Keyword(:k${i})`).join(', ')}),
                     CategoryList(${categories.map((_, i) => `T_Category(:c${i})`).join(', ')}),
@@ -167,6 +210,33 @@ router.put('/update/:id', async (req, res) => {
     }
 });
 
+router.patch('/review/:id', async (req, res) => {
+    const { id } = req.params;
+    const { reviewDate } = req.body;
+
+    try {
+        const connection = await getConnection();
+
+        let query, params;
+
+        if (reviewDate === null) {
+            query = `UPDATE Articles SET review_date = NULL WHERE articleID = :id`;
+            params = [id];
+        } else {
+            query = `UPDATE Articles SET review_date = TO_DATE(:reviewDate, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') WHERE articleID = :id`;
+            params = [reviewDate, id];
+        }
+
+        await connection.execute(query, params, { autoCommit: true });
+        await connection.close();
+
+        res.json({ message: "Review date updated." });
+    } catch (err) {
+        console.error("DB error:", err);
+        res.status(500).json({ error: "Database error." });
+    }
+});
+
 router.delete('/delete/:id', async (req, res) => {
     const { id } = req.params;
     const { authorID } = req.query; // 👈 innen kell kiolvasni
@@ -186,45 +256,6 @@ router.delete('/delete/:id', async (req, res) => {
     } catch (err) {
         console.error('Delete error:', err);
         res.status(500).json({ error: 'Failed to delete article' });
-    } finally {
-        await connection.close();
-    }
-});
-
-router.get('/by-author/:authorID', async (req, res) => {
-    const { authorID } = req.params;
-    const connection = await getConnection();
-
-    try {
-        const result = await connection.execute(`
-            SELECT 
-                a.articleID,
-                a.title,
-                DBMS_LOB.SUBSTR(a.curriculum, 4000, 1) AS curriculum,
-                a.creation_date,
-                DEREF(a.author).name AS author,
-                (SELECT CAST(COLLECT(k.keywordID) AS SYS.ODCIVARCHAR2LIST)
-                 FROM TABLE(a.keywords) k) AS keywords,
-                (SELECT CAST(COLLECT(c.categoryID) AS SYS.ODCIVARCHAR2LIST)
-                 FROM TABLE(a.categories) c) AS categories
-            FROM Articles a
-            WHERE DEREF(a.author).userID = :authorID
-        `, [authorID], { outFormat: oracledb.OUT_FORMAT_OBJECT });
-
-        const articles = result.rows.map(row => ({
-            ARTICLEID: row.ARTICLEID,
-            TITLE: row.TITLE,
-            CURRICULUM: row.CURRICULUM,
-            CREATION_DATE: row.CREATION_DATE,
-            AUTHOR: row.AUTHOR,
-            KEYWORDS: row.KEYWORDS || [],
-            CATEGORIES: row.CATEGORIES || []
-        }));
-
-        res.json(articles);
-    } catch (err) {
-        console.error("Error fetching author's articles:", err);
-        res.status(500).json({ error: "Failed to fetch articles" });
     } finally {
         await connection.close();
     }

@@ -7,6 +7,8 @@ import { ReactComponent as EditIcon } from '../assets/edit.svg';
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
 import { ReactComponent as BugIcon } from '../assets/bug.svg';
 import { ReactComponent as ViewIcon } from '../assets/view.svg';
+import { ReactComponent as CheckIcon } from '../assets/check.svg';
+import { ReactComponent as QuestionIcon } from '../assets/question.svg';
 
 function ArticlePage() {
     const { user } = useAuth();
@@ -52,6 +54,24 @@ function ArticlePage() {
 
     const handleReportIssue = (id) => { navigate(`/bug/add/${id}`); };
 
+    const handleToggleConfirm = async () => {
+        try {
+            const newStatus = article.REVIEW_DATE
+                ? null
+                : new Date().toISOString().split('.')[0] + "Z";
+            const res = await axios.patch(`http://localhost:3001/articles/review/${id}`, {
+                reviewDate: newStatus
+            });
+
+            setArticle((prev) => ({
+                ...prev,
+                REVIEW_DATE: newStatus
+            }));
+        } catch (error) {
+            alert("Could not update review status.");
+        }
+    };
+
     const handleViewBug = (bugID) => { navigate(`/bug/edit/${id}/${bugID}`); };
 
     return (
@@ -72,15 +92,17 @@ function ArticlePage() {
                                     <span className="article-edit-label">Edit Article</span>
                                 </button>
                             )}
-                            <button
-                                className="article-delete-button"
-                                onClick={() => handleDeleteArticle(id)}
-                                aria-label="Delete article"
-                                title="Delete article"
-                            >
-                                <DeleteIcon className="article-delete-icon" />
-                                <span className="article-delete-label">Delete Article</span>
-                            </button>
+                            {user && article && article.AUTHOR_ID && user.userID === article.AUTHOR_ID && (
+                                <button
+                                    className="article-delete-button"
+                                    onClick={() => handleDeleteArticle(id)}
+                                    aria-label="Delete article"
+                                    title="Delete article"
+                                >
+                                    <DeleteIcon className="article-delete-icon" />
+                                    <span className="article-delete-label">Delete Article</span>
+                                </button>
+                            )}
                             <button
                                 className="article-bug-button"
                                 onClick={() => handleReportIssue(id)}
@@ -96,7 +118,29 @@ function ArticlePage() {
 
                 <div className="article-meta">
                     {article && article.AUTHOR_NAME && <span><strong>Author:</strong> {article.AUTHOR_NAME}</span>}
-                    <span><strong>Date:</strong> {new Date(article.CREATION_DATE).toLocaleDateString()}</span>
+                    <span><strong>Creation date:</strong> {new Date(article.CREATION_DATE).toLocaleDateString()}</span>
+                    {article.CREATION_DATE &&
+                        <span><strong>Last edited:</strong> {new Date(article.CREATION_DATE).toLocaleDateString()}</span>
+                    }
+                    {article.REVIEW_DATE ?
+                        <span className="article-badge article-confirmed">
+                            <CheckIcon className="article-badge-icon" />
+                            <span>Confirmed</span>
+                        </span> :
+                        <span className="article-badge article-unconfirmed">
+                            <QuestionIcon className="article-badge-icon" />
+                            <span>Unconfirmed</span>
+                        </span>
+                    }
+                    {user?.role === "lector" && user?.confirmed === 1 && (
+                        < button
+                            className="status-toggle-button"
+                            onClick={handleToggleConfirm}
+                            style={{ marginLeft: "10px" }}
+                        >
+                            {article.REVIEW_DATE ? "Revoke Confirmed Status" : "Mark as Confirmed"}
+                        </button>
+                    )}
                 </div>
 
                 <div className="keyword-tags">

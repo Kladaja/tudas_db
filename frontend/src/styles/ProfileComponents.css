@@ -102,3 +102,17 @@
     background-color: #fd7e14;
     box-shadow: 0 0 6px #fd7e1499;
 }
+
+.status-toggle-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.status-toggle-button:hover {
+    background-color: #0056b3;
+}

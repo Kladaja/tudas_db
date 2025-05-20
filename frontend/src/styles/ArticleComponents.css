@@ -103,6 +103,41 @@
     gap: 0.25rem;
 }
 
+.article-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    user-select: none;
+    white-space: nowrap;
+    text-transform: capitalize;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: default;
+}
+
+.article-badge:hover {
+    transform: scale(1.05);
+}
+
+.article-badge-icon {
+    width: 10px;
+    height: 10px;
+    fill: white;
+}
+
+.article-confirmed {
+    background-color: #38a169;
+    box-shadow: 0 0 8px #38a169aa;
+}
+
+.article-unconfirmed {
+    background-color: #718096;
+    box-shadow: 0 0 8px #718096aa;
+}
+
 /* A R T I C L E   C A R D */
 .articles-grid {
     display: grid;

@@ -1,0 +1,151 @@
+.article-full-page {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    border: 1.5px solid #a3bffa;
+    box-shadow: 0 6px 15px rgba(75, 108, 183, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+}
+
+/* ----- A R T I C L E   H E A D E R ----- */
+.article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.article-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.article-edit-button, .article-delete-button, .article-bug-button {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.article-edit-icon, .article-delete-icon, .article-bug-icon {
+    fill: #007bff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    transition: fill 0.3s ease;
+}
+
+.article-delete-icon {
+    fill: #da1b4a;
+}
+
+.article-bug-icon {
+    fill: #eb7a1d;
+}
+
+.article-edit-label, .article-delete-label, .article-bug-label {
+    color: white;
+    display: none;
+    font-weight: 500;
+    font-size: 16px;
+    user-select: none;
+    padding-right: 7px;
+}
+
+.article-edit-button:hover {
+    background-color: #007bff;
+}
+
+.article-delete-button:hover {
+    background-color: #da1b4a;
+}
+
+.article-bug-button:hover {
+    background-color: #eb7a1d;
+}
+
+.article-edit-button:hover .article-edit-icon,
+.article-delete-button:hover .article-delete-icon,
+.article-bug-button:hover .article-bug-icon {
+    fill: white;
+}
+
+.article-edit-button:hover .article-edit-label,
+.article-delete-button:hover .article-delete-label,
+.article-bug-button:hover .article-bug-label {
+    display: inline;
+}
+
+/* ----- A R T I C L E   M E T A ----- */
+.article-meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.article-meta>span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* A R T I C L E   C A R D */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.article-card {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    border: 1.5px solid #a3bffa;
+    box-shadow: 0 6px 15px rgba(75, 108, 183, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+}
+
+.article-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(75, 108, 183, 0.25);
+}
+
+.article-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.article-card h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #4b6cb7;
+    font-size: 1.5rem;
+}
+
+.article-categories {
+    color: #4b6cb7;
+}
+
+.read-more-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #0077cc;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.read-more-link:hover {
+    color: #005fa3;
+}

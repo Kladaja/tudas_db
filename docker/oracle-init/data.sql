@@ -1,5 +1,9 @@
 -- USER adatok beszúrása
 INSERT INTO Users VALUES (
+    T_User(user_seq_custom.NEXTVAL, 'Admin', 'admin@example.com', 'admin', SYSDATE, 'admin')
+);
+
+INSERT INTO Users VALUES (
     T_User(user_seq_custom.NEXTVAL, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'student')
 );
 
@@ -69,7 +73,7 @@ INSERT INTO Articles VALUES (
     T_Article(
         article_seq_custom.NEXTVAL, 
         'The Legacy of Alan Turing',
-        'Alan Turing was a visionary whose work laid the groundwork for modern computing, artificial intelligence, and theoretical computer science. Born in 1912, Turing developed the concept of a universal machine—a theoretical construct now known as the Turing machine—which formalized the notion of algorithmic computation.
+        'Alan Turing was a visionary whose work laid the groundwork for modern computing, artificial intelligence, and theoretical computer science. Born in 1912, Turing developed the concept of a universal machine - a theoretical construct now known as the Turing machine - which formalized the notion of algorithmic computation.
         During World War II, Turing played a pivotal role at Bletchley Park in decrypting the German Enigma code, significantly shortening the war and saving countless lives. His engineering of the electromechanical "Bombe" device demonstrated an early application of automated problem-solving and logic.
         This article explores Turing’s major contributions, beginning with his 1936 paper "On Computable Numbers," which introduced the idea of computability and laid the foundation for complexity theory. We then explore the Turing Test, proposed in 1950 as a criterion for machine intelligence, and examine how modern AI research continues to grapple with its philosophical and practical implications.
         Turing’s life was tragically cut short due to persecution for his homosexuality, reflecting the societal biases of the time. Posthumous recognition—including a royal pardon and his appearance on the UK £50 note—has helped restore his legacy.

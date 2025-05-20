@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Forbidden from "../components/Forbidden";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ReactComponent as EditIcon } from '../assets/edit.svg';
+import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
+import Unauthorized from "../components/Unauthorized";
 
 function ProfilePage() {
     const { user } = useAuth();
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
@@ -18,15 +22,26 @@ function ProfilePage() {
                     setLoading(false);
                 })
                 .catch((err) => {
-                    console.error("Error loading user's articles:", err);
                     setLoading(false);
                 });
         }
     }, [user]);
 
-    if (!user) {
-        return <Forbidden />;
-    }
+    if (!user) return <Unauthorized />;
+
+    const handleEditArticle = (id) => { navigate(`/article/edit/${id}`); };
+
+    const handleDeleteArticle = async (id) => {
+        const confirmed = window.confirm("Are you sure you want to delete this article?");
+        if (!confirmed) return;
+        try {
+            await axios.delete(`http://localhost:3001/articles/delete/${id}?authorID=${user.userID}`);
+            setArticles((prev) => prev.filter((a) => a.ARTICLEID !== id));
+        } catch (error) {
+            console.error("Failed to delete article:", error);
+            alert("Failed to delete the article. Please try again.");
+        }
+    };
 
     return (
         <div className="page-container">
@@ -46,7 +61,29 @@ function ProfilePage() {
                     {articles.length > 0 ? (
                         articles.map((article) => (
                             <article key={article.ARTICLEID} className="article-card">
-                                <h2>{article.TITLE}</h2>
+                                <div className="article-header">
+                                    <h1>{article.TITLE}</h1>
+                                    <div className="article-buttons">
+                                        <button
+                                            className="article-edit-button"
+                                            onClick={() => handleEditArticle(article.ARTICLEID)}
+                                            aria-label="Edit article"
+                                            title="Edit article"
+                                        >
+                                            <EditIcon className="article-edit-icon" />
+                                            <span className="article-edit-label">Edit Article</span>
+                                        </button>
+                                        <button
+                                            className="article-delete-button"
+                                            onClick={() => handleDeleteArticle(article.ARTICLEID)}
+                                            aria-label="Edit article"
+                                            title="Edit article"
+                                        >
+                                            <DeleteIcon className="article-delete-icon" />
+                                            <span className="article-delete-label">Delete Article</span>
+                                        </button>
+                                    </div>
+                                </div>
                                 <p className="article-meta">
                                     <span>
                                         <strong>Date:</strong>{" "}
@@ -84,9 +121,6 @@ function ProfilePage() {
                                 </p>
                                 <Link to={`/article/${article.ARTICLEID}`} className="read-more-link">
                                     Read more
-                                </Link>
-                                <Link to={`/edit-article/${article.ARTICLEID}`} className="edit-button">
-                                    <span role="img" aria-label="Edit" style={{ marginRight: '4px' }}>✏️</span> Edit
                                 </Link>
                             </article>
                         ))

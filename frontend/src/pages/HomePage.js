@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as EditIcon } from '../assets/edit.svg';
+import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
 
 function HomePage() {
+    const { user } = useAuth();
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -16,7 +21,6 @@ function HomePage() {
                 setLoading(false);
             })
             .catch((error) => {
-                console.error("Error fetching articles:", error);
                 setError("Failed to load articles.");
                 setLoading(false);
             });
@@ -31,6 +35,19 @@ function HomePage() {
 
     const allKeywords = articles.flatMap(article => article.KEYWORDS || []);
     const uniqueKeywords = [...new Set(allKeywords)].sort();
+
+    const handleEditArticle = (id) => { navigate(`/article/edit/${id}`); };
+
+    const handleDeleteArticle = async (id) => {
+        const confirmed = window.confirm("Are you sure you want to delete this article?");
+        if (!confirmed) return;
+        try {
+            await axios.delete(`http://localhost:3001/articles/delete/${id}?authorID=${user.userID}`);
+        } catch (error) {
+            console.error("Failed to delete article:", error);
+            alert("Failed to delete the article. Please try again.");
+        }
+    };
 
     return (
         <>
@@ -74,7 +91,33 @@ function HomePage() {
                     <section className="articles-grid">
                         {filteredArticles.map((article) => (
                             <article key={article.ARTICLEID} className="article-card">
-                                <h2>{article.TITLE}</h2>
+                                <div className="article-card-header">
+                                    <h2>{article.TITLE}</h2>
+                                    {user && (
+                                        <div className="article-buttons">
+                                            {user && article && article.AUTHOR_ID && user.userID === article.AUTHOR_ID && (
+                                                <button
+                                                    className="article-edit-button"
+                                                    onClick={() => handleEditArticle(article.ARTICLEID)}
+                                                    aria-label="Edit article"
+                                                    title="Edit article"
+                                                >
+                                                    <EditIcon className="article-edit-icon" />
+                                                    <span className="article-edit-label">Edit Article</span>
+                                                </button>
+                                            )}
+                                            <button
+                                                className="article-delete-button"
+                                                onClick={() => handleDeleteArticle(article.ARTICLEID)}
+                                                aria-label="Delete article"
+                                                title="Delete article"
+                                            >
+                                                <DeleteIcon className="article-delete-icon" />
+                                                <span className="article-delete-label">Delete Article</span>
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                                 <p className="article-meta">
                                     <span>
                                         <strong>Author:</strong> {article.AUTHOR || "Unknown"}
@@ -98,20 +141,24 @@ function HomePage() {
                                     </span>
                                 </p>
 
-                                {article.KEYWORDS && article.KEYWORDS.length > 0 && (
-                                    <div className="keyword-tags">
-                                        {article.KEYWORDS.map((keyword, index) => (
-                                            <span key={index} className="keyword-tag">
-                                                {keyword}
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
+                                {
+                                    article.KEYWORDS && article.KEYWORDS.length > 0 && (
+                                        <div className="keyword-tags">
+                                            {article.KEYWORDS.map((keyword, index) => (
+                                                <span key={index} className="keyword-tag">
+                                                    {keyword}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )
+                                }
 
-                                <p className="article-content">
-                                    {article.CURRICULUM.length > 300
-                                        ? `${article.CURRICULUM.substring(0, 300)}...`
-                                        : article.CURRICULUM}
+                                < p className="article-content" >
+                                    {
+                                        article.CURRICULUM.length > 300
+                                            ? `${article.CURRICULUM.substring(0, 300)}...`
+                                            : article.CURRICULUM
+                                    }
                                 </p>
                                 <Link to={`/article/${article.ARTICLEID}`} className="read-more-link">
                                     Read more
@@ -119,7 +166,7 @@ function HomePage() {
                             </article>
                         ))}
                     </section>
-                </section>
+                </section >
 
                 <aside className="sidebar sidebar-right">
                     <h2>Keywords</h2>
@@ -137,7 +184,7 @@ function HomePage() {
                         <p>No keywords available.</p>
                     )}
                 </aside>
-            </main>
+            </main >
         </>
     );
 }

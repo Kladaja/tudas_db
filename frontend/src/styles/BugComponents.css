@@ -1,0 +1,140 @@
+/* B U G   L I S T*/
+.bug-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    border-top: 1px solid #ccc;
+}
+
+.bug-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.bug-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+
+.bug-item-rigth {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* B U G   L I S T   I C O N S */
+.bug-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: block;
+    color: #718096;
+    transition: color 0.3s ease;
+}
+
+.bug-icon-open {
+    fill: #e53e3e;
+}
+
+.bug-icon-pending {
+    fill: #dd6b20;
+}
+
+.bug-icon-resolved {
+    fill: #38a169;
+}
+
+.bug-icon-archived {
+    fill: #718096;
+}
+
+.bug-description {
+    flex: 1 1 auto;
+    max-width: 70%;
+    font-size: 1rem;
+    word-wrap: break-word;
+}
+
+.bug-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    user-select: none;
+    white-space: nowrap;
+    text-transform: capitalize;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: default;
+}
+
+.bug-badge:hover {
+    transform: scale(1.05);
+}
+
+.bug-open {
+    background-color: #e53e3e;
+    box-shadow: 0 0 8px #e53e3eaa;
+}
+
+.bug-pending {
+    background-color: #dd6b20;
+    box-shadow: 0 0 8px #dd6b20aa;
+}
+
+.bug-resolved {
+    background-color: #38a169;
+    box-shadow: 0 0 8px #38a169aa;
+}
+
+.bug-archived {
+    background-color: #718096;
+    box-shadow: 0 0 8px #718096aa;
+}
+
+/* B U G   L I S T   B U T T O N S */
+.bug-view-button {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.bug-view-icon {
+    fill: #718096;
+    width: 25px;
+    height: 25px;
+    display: block;
+    transition: fill 0.3s ease;
+}
+
+.bug-view-label {
+    color: white;
+    display: none;
+    font-weight: 500;
+    font-size: 16px;
+    user-select: none;
+    padding-right: 7px;
+}
+
+.bug-view-button:hover {
+    background-color: #718096;
+}
+
+.bug-view-button:hover .bug-view-icon {
+    fill: white;
+}
+
+.bug-view-button:hover .bug-view-label {
+    display: inline;
+}

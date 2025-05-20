@@ -7,8 +7,9 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import FilteredArticlesPage from './pages/FilteredArticlesPage';
 import ArticlePage from "./pages/ArticlePage";
+import ArticleFormPage from "./pages/ArticleFormPage";
 import ProfilePage from "./pages/ProfilePage";
-import CreateArticlePage from "./pages/CreateArticlePage";
+import BugFormPage from "./pages/BugFormPage";
 import "./styles/App.css";
 
 function App() {
@@ -24,8 +25,10 @@ function App() {
           <Route path="/keyword/:keyword" element={<FilteredArticlesPage filterType="keyword" />} />
           <Route path="/article/:id" element={<ArticlePage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/create-article" element={<CreateArticlePage />} />
-          <Route path="/edit-article/:id" element={<CreateArticlePage />} />
+          <Route path="/article/add" element={<ArticleFormPage />} />
+          <Route path="/article/edit/:id" element={<ArticleFormPage />} />
+          <Route path="/bug/add/:articleID" element={<BugFormPage />} />
+          <Route path="/bug/edit/:articleID/:bugID" element={<BugFormPage />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -39,7 +39,7 @@ function RegisterPage() {
 
     return (
         <div className="page-container centered">
-            <h2>Regisztráció</h2>
+            <h2>Register</h2>
             <form onSubmit={handleSubmit} className="form form-narrow">
                 <input name="name" placeholder="Full name" onChange={handleChange} required />
                 <input name="email" type="email" placeholder="Email" onChange={handleChange} required />

@@ -6,13 +6,9 @@ function FloatingButton() {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    if (!user) {
-        return null;
-    }
+    if (!user) return null;
 
-    const handleClick = () => {
-        navigate('/create-article');
-    };
+    const handleClick = () => { navigate('/article/add'); };
 
     return (
         <button

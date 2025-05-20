@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import FloatingButton from './FloatingButton';
+import { ReactComponent as HomeIcon } from '../assets/home.svg';
+import { ReactComponent as LogoutIcon } from '../assets/logout.svg';
+import { ReactComponent as PersonIcon } from '../assets/person.svg';
 
 function Navbar() {
     const { user, logout } = useAuth();
@@ -19,11 +22,25 @@ function Navbar() {
             <div className="nav-right">
                 {user ? (
                     <>
-                        <Link to="/profile">Profile</Link>
-                        <Link to="#" onClick={handleLogout}>Logout</Link>
+                        <Link to="/" className="navbar-button">
+                            <HomeIcon className="navbar-icon" />
+                            <span className="navbar-label">Home</span>
+                        </Link>
+                        <Link to="/profile" className="navbar-button">
+                            <PersonIcon className="navbar-icon" />
+                            <span className="navbar-label">Profile</span>
+                        </Link>
+                        <Link to="#" onClick={handleLogout} className="navbar-button">
+                            <LogoutIcon className="navbar-icon" />
+                            <span className="navbar-label">Logout</span>
+                        </Link>
                     </>
                 ) : (
                     <>
+                        <Link to="/" className="navbar-button">
+                            <HomeIcon className="navbar-icon" />
+                            <span className="navbar-label">Home</span>
+                        </Link>
                         <Link to="/login">Login</Link>
                         <Link to="/register">Register</Link>
                     </>

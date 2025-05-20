@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import Forbidden from '../components/Forbidden';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Unauthorized from '../components/Unauthorized';
 
 function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
-function CreateArticlePage() {
+function ArticleFormPage() {
     const { user } = useAuth();
     const [article, setArticle] = useState({
         title: '',
@@ -15,13 +15,12 @@ function CreateArticlePage() {
         keywords: [],
         categories: []
     });
-
     const [newKeyword, setNewKeyword] = useState('');
     const [newCategory, setNewCategory] = useState('');
     const [existingKeywords, setExistingKeywords] = useState([]);
     const [existingCategories, setExistingCategories] = useState([]);
-
     const { id } = useParams();
+    const navigate = useNavigate();
 
     function normalizeArray(arr) {
         const seen = new Set();
@@ -59,9 +58,7 @@ function CreateArticlePage() {
             .then(data => setExistingCategories(normalizeArray(data)))
     }, []);
 
-    if (!user) {
-        return <Forbidden />;
-    }
+    if (!user) return <Unauthorized />;
 
     const addKeyword = () => {
         const cap = capitalize(newKeyword);
@@ -112,22 +109,19 @@ function CreateArticlePage() {
             categories: article.categories,
             authorID: user.userID
         };
-
         try {
             const url = id
                 ? `http://localhost:3001/articles/update/${id}`
                 : 'http://localhost:3001/articles/add'
 
             const method = id ? 'PUT' : 'POST';
-
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-
             if (response.ok) {
-                alert(id ? "Article updated!" : "Article created!");
+                navigate(`/profile`);
             } else {
                 const error = await response.json();
                 alert("Error: " + error.error);
@@ -141,7 +135,7 @@ function CreateArticlePage() {
     return (
         <main className="page-container centered">
             <div>
-                <h2>Create New Article</h2>
+                <h2>{id ? "Edit Article" : "Create Article"}</h2>
 
                 <form onSubmit={handleSubmit} className="form">
                     <div className="form-group">
@@ -219,4 +213,4 @@ function CreateArticlePage() {
     );
 }
 
-export default CreateArticlePage;
+export default ArticleFormPage;

@@ -1,0 +1,122 @@
+/* ----- N A V B A R ----- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #4b6cb7;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-logo {
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-button {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: color 0.3s ease;
+    gap: 0.5rem;
+}
+
+.navbar-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    display: block;
+}
+
+.navbar-label {
+    font-size: 1rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.navbar-button:hover {
+    color: #a3bffa;
+}
+
+.nav-right>a:not(.navbar-button) {
+    margin-left: 1.5rem;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-right>a:not(.navbar-button):hover {
+    color: #a3bffa;
+}
+
+/* ----- E R R O R   P A G E S ----- */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+}
+
+.error-image {
+    max-width: 300px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.error-title {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    color: #c0392b;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* ----- F L O A T I N G   B U T T O N ----- */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.floating-button:hover {
+    background-color: #45a049;
+}
+
+.floating-button .plus-icon {
+    font-size: 30px;
+}

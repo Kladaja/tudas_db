@@ -57,31 +57,3 @@ body {
     box-shadow: 0 0 5px rgba(75, 108, 183, 0.6);
     outline: none;
 }
-
-.forbidden-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 80vh;
-    text-align: center;
-    padding: 20px;
-    color: #333;
-}
-
-.forbidden-image {
-    max-width: 300px;
-    margin-bottom: 20px;
-    opacity: 0.9;
-}
-
-.forbidden-title {
-    font-size: 2.5rem;
-    margin: 10px 0;
-    color: #c0392b;
-}
-
-.forbidden-message {
-    font-size: 1.2rem;
-    line-height: 1.6;
-}

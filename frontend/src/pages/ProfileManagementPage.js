@@ -74,6 +74,7 @@ function ProfileManagementPage() {
                                         <>
                                             <th>Field</th>
                                             <th>Rank</th>
+                                            <th>Status</th>
                                         </>
                                     ) : (
                                         <>
@@ -93,10 +94,20 @@ function ProfileManagementPage() {
                                             <>
                                                 <td>{item.FIELD}</td>
                                                 <td>{item.SCIENTIFIC_RANK}</td>
+                                                <td>{item.CONFIRMED === 1 ?
+                                                    <span className="confirmed-pill">
+                                                        Confirmed
+                                                    </span> :
+                                                    <span className="requested-pill">
+                                                        Requested
+                                                    </span>}</td>
                                             </>
                                         ) : (
                                             <>
-                                                <td>{item.ROLE}</td>
+                                                <td>
+                                                    <span className={`role-pill ${item.ROLE.toLowerCase()}`}>
+                                                        {item.ROLE}
+                                                    </span></td>
                                                 <td>{new Date(item.REGISTRATION_DATE).toLocaleDateString()}</td>
                                             </>
                                         )}

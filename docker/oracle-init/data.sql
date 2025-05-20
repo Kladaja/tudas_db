@@ -1,23 +1,23 @@
 -- USER adatok beszúrása
 INSERT INTO Users VALUES (
-    T_User(user_seq_custom.NEXTVAL, 'Admin', 'admin@example.com', 'admin', SYSDATE, 'admin')
+    T_User(user_seq_custom.NEXTVAL, 'Admin', 'admin@example.com', 'admin', SYSDATE, 'admin', 0)
 );
 
 INSERT INTO Users VALUES (
-    T_User(user_seq_custom.NEXTVAL, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'user')
+    T_User(user_seq_custom.NEXTVAL, 'John Doe', 'john.doe@example.com', 'hashedpassword123', SYSDATE, 'user', 0)
 );
 
 INSERT INTO Users VALUES (
-    T_User(user_seq_custom.NEXTVAL, 'Jane Smith', 'jane.smith@example.com', 'securehash456', SYSDATE, 'user')
+    T_User(user_seq_custom.NEXTVAL, 'Jane Smith', 'jane.smith@example.com', 'securehash456', SYSDATE, 'user', 0)
 );
 
 -- LECTOR adatok beszúrása
 INSERT INTO Lectors VALUES (
-    T_Lector(user_seq_custom.NEXTVAL, 'Dr. Emily Watson', 'emily.watson@example.com', 'profhash789', SYSDATE, 'lector', 'Artificial Intelligence', 'Associate Professor')
+    T_Lector(user_seq_custom.NEXTVAL, 'Dr. Emily Watson', 'emily.watson@example.com', 'profhash789', SYSDATE, 'lector', 0, 'Artificial Intelligence', 'Associate Professor')
 );
 
 INSERT INTO Lectors VALUES (
-    T_Lector(user_seq_custom.NEXTVAL, 'Dr. Alan Turing', 'alan.turing@example.com', 'legendaryhash001', SYSDATE, 'lector', 'Theoretical Computer Science', 'Professor')
+    T_Lector(user_seq_custom.NEXTVAL, 'Dr. Alan Turing', 'alan.turing@example.com', 'legendaryhash001', SYSDATE, 'lector', 1, 'Theoretical Computer Science', 'Professor')
 );
 
 -- KEYWORDS beszúrása

@@ -5,7 +5,8 @@ CREATE OR REPLACE TYPE T_User AS OBJECT (
     email VARCHAR2(100),
     password VARCHAR2(100),
     registration_date DATE,
-    role VARCHAR2(50)
+    role VARCHAR2(50),
+    confirmed NUMBER(1)
 ) NOT FINAL;
 /
 

@@ -19,25 +19,41 @@ function ProfilePage() {
 
     useEffect(() => {
         const fetchProfile = async () => {
-            if (!id) {
-                setProfile(user);
-                setLoading(false);
-                return;
-            }
             try {
-                const userRes = await axios.get(`http://localhost:3001/users/${id}`);
-                const userData = userRes.data;
-                const normalizedUser = {
-                    userID: userData.USERID,
-                    name: userData.NAME,
-                    email: userData.EMAIL,
-                    role: userData.ROLE,
-                };
-
-                setProfile(normalizedUser);
-                setIsLector(false);
-            } catch {
+                if (!id) {
+                    if (user.role === 'lector') {
+                        const lectorRes = await axios.get(`http://localhost:3001/lectors/${user.userID}`);
+                        const lectorData = lectorRes.data;
+                        const normalizedLector = {
+                            userID: lectorData.LECTORID,
+                            name: lectorData.NAME,
+                            email: lectorData.EMAIL,
+                            role: 'lector',
+                            FIELD: lectorData.FIELD,
+                            SCIENTIFIC_RANK: lectorData.SCIENTIFIC_RANK,
+                            CONFIRMED: lectorData.CONFIRMED
+                        };
+                        setProfile(normalizedLector);
+                        setIsLector(true);
+                    } else {
+                        setProfile(user);
+                        setIsLector(false);
+                    }
+                    return;
+                }
                 try {
+                    const userRes = await axios.get(`http://localhost:3001/users/${id}`);
+                    const userData = userRes.data;
+                    const normalizedUser = {
+                        userID: userData.USERID,
+                        name: userData.NAME,
+                        email: userData.EMAIL,
+                        role: userData.ROLE,
+                        confirmed: userData.CONFIRMED
+                    };
+                    setProfile(normalizedUser);
+                    setIsLector(false);
+                } catch {
                     const lectorRes = await axios.get(`http://localhost:3001/lectors/${id}`);
                     const lectorData = lectorRes.data;
                     const normalizedLector = {
@@ -47,14 +63,13 @@ function ProfilePage() {
                         role: 'lector',
                         FIELD: lectorData.FIELD,
                         SCIENTIFIC_RANK: lectorData.SCIENTIFIC_RANK,
+                        CONFIRMED: lectorData.CONFIRMED
                     };
-
                     setProfile(normalizedLector);
                     setIsLector(true);
-                } catch (err) {
-                    console.error("Profile not found.");
-                    setProfile(null);
                 }
+            } catch (err) {
+                setProfile(null);
             } finally {
                 setLoading(false);
             }
@@ -68,13 +83,12 @@ function ProfilePage() {
                 const response = await axios.get(`http://localhost:3001/articles/by-author/${authorID}`);
                 setArticles(response.data);
             } catch (err) {
-                console.error("Failed to load articles");
                 setArticles([]);
             }
         };
-
         if (profile && profile.userID) {
             fetchArticles(profile.userID);
+            console.log(profile)
         }
     }, [profile]);
 
@@ -98,18 +112,42 @@ function ProfilePage() {
 
     return (
         <div className="page-container">
-            <h2>Profile</h2>
-            {profile && <div className="main-content">
-                <p><strong>Name: </strong>{profile.name}</p>
-                <p><strong>Email: </strong>{profile.email}</p>
-                <p><strong>Role: </strong>{profile.role}</p>
-                {isLector ? (
-                    <>
-                        <p><strong>Field:</strong> {profile.FIELD}</p>
-                        <p><strong>Scientific Rank:</strong> {profile.SCIENTIFIC_RANK}</p>
-                    </>
-                ) : <></>}
-            </div>}
+            <h2 className="profile-title">Profile</h2>
+            {profile && (
+                <div className="main-content profile-details">
+                    <p className="profile-field">
+                        <strong className="profile-label">Name:</strong> {profile.name}
+                    </p>
+                    <p className="profile-field">
+                        <strong className="profile-label">Email:</strong> {profile.email}
+                    </p>
+                    <p className="profile-field">
+                        <strong className="profile-label">Role:</strong>
+                        <span className={`role-pill ${profile.role.toLowerCase()}`}>
+                            {profile.role}
+                        </span>
+                    </p>
+                    {isLector ? (
+                        <>
+                            <p className="profile-field">
+                                <strong className="profile-label">Field:</strong> {profile.FIELD}
+                            </p>
+                            <p className="profile-field">
+                                <strong className="profile-label">Scientific Rank:</strong> {profile.SCIENTIFIC_RANK}
+                            </p>
+                            <p className="profile-field">
+                                <strong className="profile-label">Status:</strong> {profile.CONFIRMED === 1 ?
+                                    <span className="confirmed-pill">
+                                        Confirmed
+                                    </span> :
+                                    <span className="requested-pill">
+                                        Requested
+                                    </span>}
+                            </p>
+                        </>
+                    ) : null}
+                </div>
+            )}
 
             <h3>Articles</h3>
 
@@ -121,7 +159,7 @@ function ProfilePage() {
                         articles.map((article) => (
                             <article key={article.ARTICLEID} className="article-card">
                                 <div className="article-header">
-                                    <h1>{article.TITLE}</h1>
+                                    <h1 className="article-card-title">{article.TITLE}</h1>
                                     <div className="article-buttons">
                                         <button
                                             className="article-edit-button"

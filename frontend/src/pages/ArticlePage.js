@@ -58,7 +58,7 @@ function ArticlePage() {
         <main className="page-container">
             <div className="article-full-page">
                 <div className="article-header">
-                    <h1>{article.TITLE}</h1>
+                    <h1 className="article-title">{article.TITLE}</h1>
                     {user && (
                         <div className="article-buttons">
                             {user && article && article.AUTHOR_ID && user.userID === article.AUTHOR_ID && (

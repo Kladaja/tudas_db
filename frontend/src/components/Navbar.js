@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import FloatingButton from './FloatingButton';
+import { ReactComponent as LogoIcon } from '../assets/logo.svg';
 import { ReactComponent as HomeIcon } from '../assets/home.svg';
 import { ReactComponent as LogoutIcon } from '../assets/logout.svg';
 import { ReactComponent as PersonIcon } from '../assets/person.svg';
@@ -18,7 +19,10 @@ function Navbar() {
     return (
         <nav className="navbar">
             <div className="nav-left">
-                <Link to="/" className="nav-logo">ArticlePortal</Link>
+                <Link to="/" className="nav-logo">
+                    <LogoIcon className="logo-icon" />
+                    <span className="logo-label"><i>Article</i><span className="logo-label-highlight">Portal</span></span>
+                </Link>
             </div>
             <div className="nav-right">
                 {user ? (

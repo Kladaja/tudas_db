@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     try {
         const connection = await getConnection();
         const result = await connection.execute(
-            `SELECT userID, name, email, field, scientific_rank FROM Lectors`,
+            `SELECT userID, name, email, field, scientific_rank, confirmed FROM Lectors`,
             [],
             { outFormat: oracledb.OUT_FORMAT_OBJECT }
         );
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     try {
         const connection = await getConnection();
         const result = await connection.execute(
-            `SELECT userID, name, email, field, scientific_rank FROM Lectors WHERE userID = :id`,
+            `SELECT userID, name, email, field, scientific_rank, confirmed FROM Lectors WHERE userID = :id`,
             [id],
             { outFormat: oracledb.OUT_FORMAT_OBJECT }
         );

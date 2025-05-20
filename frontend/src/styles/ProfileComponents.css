@@ -1,3 +1,52 @@
+/* P R O F I L E   P A G E */
+.profile-title {
+    font-size: 2rem;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    color: #2c3e50;
+}
+
+.profile-field {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+.profile-label {
+    color: #4a90e2;
+    display: inline-block;
+    width: 130px;
+    font-weight: 600;
+}
+
+.role-pill {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: capitalize;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.role-pill.admin {
+    background-color: #d9534f;
+    box-shadow: 0 0 6px rgba(217, 83, 79, 0.6);
+}
+
+.role-pill.user {
+    background-color: #5bc0de;
+    box-shadow: 0 0 6px rgba(91, 192, 222, 0.6);
+}
+
+.role-pill.lector {
+    background-color: #f0ad4e;
+    box-shadow: 0 0 6px rgba(240, 173, 78, 0.6);
+}
+
 /* P R O F I L E   M A N A G E M E N T */
 .view-btn {
     background-color: #3498db;
@@ -30,4 +79,26 @@
     background-color: #3498db;
     color: white;
     border-color: #3498db;
+}
+
+/* C O N F I R M E D   S T A T U S E S */
+.confirmed-pill,
+.requested-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 12px;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.confirmed-pill {
+    background-color: #28a745;
+    box-shadow: 0 0 6px #28a74599;
+}
+
+.requested-pill {
+    background-color: #fd7e14;
+    box-shadow: 0 0 6px #fd7e1499;
 }

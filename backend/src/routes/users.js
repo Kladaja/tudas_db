@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     try {
         const connection = await getConnection();
         const result = await connection.execute(
-            `SELECT userID, name, email, registration_date, role FROM Users`,
+            `SELECT userID, name, email, registration_date, role, confirmed FROM Users`,
             [],
             { outFormat: oracledb.OUT_FORMAT_OBJECT }
         );
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
     try {
         const connection = await getConnection();
         const result = await connection.execute(
-            `SELECT userID, name, email, registration_date, role FROM Users WHERE userID = :id`,
+            `SELECT userID, name, email, registration_date, role, confirmed FROM Users WHERE userID = :id`,
             [id],
             { outFormat: oracledb.OUT_FORMAT_OBJECT }
         );
@@ -78,6 +78,8 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     const { name, email, password, role, field, scientific_rank } = req.body;
+    const confirmed = 0;
+
     if (!name || !email || !password || !role) {
         return res.status(400).json({ error: 'Missing required fields!' });
     }
@@ -106,16 +108,16 @@ router.post('/register', async (req, res) => {
 
             await connection.execute(
                 `INSERT INTO Lectors VALUES (
-                    T_Lector(:userID, :name, :email, :password, SYSDATE, :role, :field, :scientific_rank)
+                    T_Lector(:userID, :name, :email, :password, SYSDATE, :role, :confirmed, :field, :scientific_rank)
                 )`,
-                { userID, name, email, password, role, field, scientific_rank }
+                { userID, name, email, password, role, confirmed, field, scientific_rank }
             );
         } else {
             await connection.execute(
                 `INSERT INTO Users VALUES (
-                    T_User(:userID, :name, :email, :password, SYSDATE, :role)
+                    T_User(:userID, :name, :email, :password, SYSDATE, :role, :confirmed)
                 )`,
-                { userID, name, email, password, role }
+                { userID, name, email, password, role, confirmed }
             );
         }
         await connection.commit();

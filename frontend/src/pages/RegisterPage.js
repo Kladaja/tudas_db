@@ -55,6 +55,7 @@ function RegisterPage() {
 
                 {formData.role === "lector" && (
                     <>
+                        <p className="info-text">Please note: Registering as a Lector requires approval from an administrator.<br />Until your lector status is confirmed, you will have the same access and permissions as a regular user.</p>
                         <input name="field" placeholder="Field" onChange={handleChange} required />
                         <input name="scientific_rank" placeholder="Scientific rank" onChange={handleChange} required />
                     </>

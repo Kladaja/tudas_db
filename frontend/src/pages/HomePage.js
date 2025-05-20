@@ -92,7 +92,7 @@ function HomePage() {
                         {filteredArticles.map((article) => (
                             <article key={article.ARTICLEID} className="article-card">
                                 <div className="article-card-header">
-                                    <h2>{article.TITLE}</h2>
+                                    <h2 className="article-card-title">{article.TITLE}</h2>
                                     {user && (
                                         <div className="article-buttons">
                                             {user && article && article.AUTHOR_ID && user.userID === article.AUTHOR_ID && (
@@ -106,15 +106,17 @@ function HomePage() {
                                                     <span className="article-edit-label">Edit Article</span>
                                                 </button>
                                             )}
-                                            <button
-                                                className="article-delete-button"
-                                                onClick={() => handleDeleteArticle(article.ARTICLEID)}
-                                                aria-label="Delete article"
-                                                title="Delete article"
-                                            >
-                                                <DeleteIcon className="article-delete-icon" />
-                                                <span className="article-delete-label">Delete Article</span>
-                                            </button>
+                                            {user && article && article.AUTHOR_ID && user.userID === article.AUTHOR_ID && (
+                                                <button
+                                                    className="article-delete-button"
+                                                    onClick={() => handleDeleteArticle(article.ARTICLEID)}
+                                                    aria-label="Delete article"
+                                                    title="Delete article"
+                                                >
+                                                    <DeleteIcon className="article-delete-icon" />
+                                                    <span className="article-delete-label">Delete Article</span>
+                                                </button>
+                                            )}
                                         </div>
                                     )}
                                 </div>
